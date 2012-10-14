@@ -32,11 +32,6 @@ createCodeTree = combine . sortPair . map unreplicate . group . sort
         sortPair = sortBy comparePair
         comparePair = (compare `on` snd)
         
-        --combine :: [CharInt] -> CodeTree -- unoptimized
-        --combine = foldr1 Fork . map pairToLeaf -- Is don't optime
-        --      where pairToLeaf = (\(x,_)->Leaf x)
-        
-        -- optimization of combine
         combine :: [CharInt] -> CodeTree 
                                  -- (pairs, sum $ map snd pairs)
         combine = oneElement . iterate combine' . map (\(c,i)->(Leaf c, i))
@@ -47,25 +42,6 @@ createCodeTree = combine . sortPair . map unreplicate . group . sort
                 oneElement = fst . head . head . dropWhile (not.len1)
                     where len1 [x] = True
                           len1 _   = False
-
-          --optCombine pairs = combine' (pairs, foldl' (\x (_,y)->x+y) 0 pairs)
-          --  where 
-          --      combine' :: ([CharInt], Int) -> CodeTree
-          --      combine' ([(c,_)], _) = Leaf c
-          --      combine' chars        = Fork (combine' l) (combine' r)
-          --          where (l,r) = cutMiddle chars
-
-          --      cutMiddle :: ([CharInt], Int) -> ( ([CharInt], Int) , ([CharInt], Int) )
-          --      cutMiddle ([c,c'], _) = ( ([c],snd c), ([c'],snd c) )
-          --      cutMiddle (cs, n)     = ( (cs', i), (cs'', n-i) )
-          --          where (cs',cs'',i) = break' 0 cs
-                          
-          --                break' :: Int -> [CharInt] -> ( [CharInt], [CharInt], Int )
-          --                break' acc [x]      = ([],[x], acc)
-          --                break' acc (x:xs)
-          --                   | 2*acc >= n   = ([], x:xs, acc)
-          --                   | otherwise = (x:xs', ys', acc')
-          --                        where (xs',ys',acc') = break' (acc+snd x) xs
 
 
 type CodeTable = [(Char, [Int])]
