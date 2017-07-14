@@ -8,4 +8,9 @@ Little implementation of Huffman Coding system.
 
 ## TODO
 
-* Add support to read and write text.
+* Add support to read and write text from files.
+* Add more documentation
+
+## Licence
+
+WTFPL 2.0 - http://www.wtfpl.net/
